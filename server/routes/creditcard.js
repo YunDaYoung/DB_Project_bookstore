@@ -5,7 +5,7 @@ var pool = require('../config/dbconfig');
 
 //카드 정보 조회
 router.get('/:customerID', function(req, res, next) {
-  var customerID = req.params.customerID;
+  var customerID = req.params.customerID;var customerID = req.params.customerID;
   pool.getConnection((err, conn) => {
     if(err) { console.log(err); }
     else {
@@ -42,9 +42,9 @@ router.post('/:customerID', function(req, res, next) {
         else {
           res.send({result : true});
         }
-      })
+      });
     }
-  })
+  });
 });
 
 //카드 정보 삭제
@@ -59,9 +59,9 @@ router.delete('/:cardNumber', function(req, res, next) {
         else {
           res.send({result : true});
         }
-      })
+      });
     }
-  })
+  });
 });
 
 module.exports = router;
