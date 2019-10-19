@@ -10,6 +10,7 @@ var customerRouter = require('./routes/customer');
 var addressRouter = require('./routes/address');
 var creditcardRouter = require('./routes/creditcard');
 var bookRouter = require('./routes/book');
+var orderRouter = require('./routes/order');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/customer', customerRouter);
 app.use('/address', addressRouter);
 app.use('/creditcard', creditcardRouter);
 app.use('/book', bookRouter);
+app.use('/order', orderRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
