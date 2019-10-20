@@ -11,6 +11,7 @@ router.get('/:bookID', function(req, res, next) {
     else {
       var sql = "SELECT * FROM tbbook WHERE bookID = ?"
       conn.query(sql, [bookID], (err, result) => {
+        conn.release();
         if(err) { console.log(err); }
         else {
           var data = {
@@ -35,6 +36,7 @@ router.post('/', function(req, res, next) {
     else {
       var sql = "INSERT INTO tbbook(bookName, bookPrice, bookStock, bookAuthor, bookImage) VALUES (?, ?, ?, ?, ?)"
       conn.query(sql, [req.body.bookName, req.body.bookPrice, req.body.bookStock, req.body.bookAuthor, req.body.bookImage], (err, result) => {
+        conn.release();
         if(err) { console.log(err); }
         else {
           res.send({result : true});
@@ -52,6 +54,7 @@ router.put('/:bookID', function(req, res, next) {
     else {
       var sql = "UPDATE tbbook SET bookName = ?, bookPrice = ?, bookStock = ?, bookAuthor = ?, bookImage = ? WHERE bookID = ?"
       conn.query(sql, [req.body.bookName, req.body.bookPrice, req.body.bookStock, req.body.bookAuthor, req.body.bookImage, bookID], (err, result) => {
+        conn.release();
         if(err) { console.log(err); }
         else {
           res.send({result : true});
@@ -69,6 +72,7 @@ router.delete('/:bookID', function(req, res, next) {
     else {
       var sql = "DELETE FROM tbbook WHERE bookID = ?"
       conn.query(sql, [bookID], (err, result) => {
+        conn.release();
         if(err) { console.log(err); }
         else {
           res.send({result : true});

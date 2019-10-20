@@ -13,7 +13,6 @@ router.post('/signUp', function(req, res) {
         if(err) { console.log(err); }
         else {
           if(result.length === 0){
-            console.log("123");
             var insert = "INSERT INTO `tbcustomer`(`customerID`, `customerName`, `password`) VALUES (?, ?, ?)"
             conn.query(insert, [req.body.customerID, req.body.customerName, req.body.password], (err, result) => {
               conn.release();

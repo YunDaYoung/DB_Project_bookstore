@@ -11,6 +11,7 @@ router.get('/:customerID', function(req, res, next) {
     else {
       var sql = "SELECT * FROM tbcard WHERE customerID = ?"
       conn.query(sql, [customerID], (err, result) => {
+        conn.release();
         if(err) { console.log(err); }
         else {
           if(result.length === 0){
@@ -38,6 +39,7 @@ router.post('/:customerID', function(req, res, next) {
     else {
       var sql = "INSERT INTO tbcard (cardNumber, customerID, cardExpiry, cardType) VALUES (?, ?, ?, ?)"
       conn.query(sql, [req.body.cardNumber, customerID, req.body.cardExpiry, req.body.cardType], (err, result) => {
+        conn.release();
         if(err) { console.log(err); }
         else {
           res.send({result : true});
@@ -55,6 +57,7 @@ router.delete('/:cardNumber', function(req, res, next) {
     else {
       var sql = "DELETE FROM tbcard WHERE cardNumber = ?"
       conn.query(sql, [cardNumber], (err, result) => {
+        conn.release();
         if(err) { console.log(err); }
         else {
           res.send({result : true});

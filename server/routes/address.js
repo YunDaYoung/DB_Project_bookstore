@@ -4,47 +4,84 @@ var router = express.Router();
 var pool = require('../config/dbconfig');
 
 //배송지 등록
-router.post('/register', function(req, res, next) {
+router.post('/:customerID', function(req, res, next) {
+    var customerID = req.params.customerID;
     pool.getConnection((err, conn) => {
       if(err) { console.log(err); }
       else {
-        var sql1 = "INSERT INTO tbaddressdetail(addressNumber, address, addressDetail) VALUES (?, ?, ?)"
-        conn.query(sql1, [req.body.addressNumber, req.body.address, req.body.addressDetail], (err, result) => {
+        var sql1 = "INSERT INTO tbaddress(tbCustomer_customerID, addressNumber, address, addressDetail) VALUES (?, ?, ?, ?)"
+        conn.query(sql1, [customerID, req.body.addressNumber, req.body.address, req.body.addressDetail], (err, result) => {
+          conn.release();
           if(err) { console.log(err); res.send({result : false})}
-          else {
-              var sql2 = "SELECT LAST_INSERT_ID() as indexNum"
-              conn.query(sql2, (err, result) => {
-                  if(err) { console.log(err); res.send({result : false})}
-                  else {
-                    
-                  }
-              })
+          else if(result){
+            res.send(200, {result : true});
           }
+          else{ res.send(400, {result : false}); }
         });
       }
     });
 });
   
 //배송지 수정
-router.put('/update/:addressID', function(req, res, next) {
+router.put('/:customerID/:addressID', function(req, res, next) {
+    var customerID = req.params.customerID;
     var addressID = req.params.addressID;
     pool.getConnection((err,conn) => {
       if(err) { console.log(err); }
       else {
-        var sql = "UPDATE tbaddress set tb"
+        var sql = "UPDATE tbaddress SET tbCustomer_customerID = ?, addressNumber = ?, address = ?, addressDetail = ? WHERE addressID = ? "
+        conn.query(sql, [customerID, req.body.addressNumber, req.body.address, req.body.addressDetail, addressID], (err, result) => {
+          conn.release();
+          if(err) { console.log(err); }
+          else if(result){
+            res.send(200, {result : true});
+          }
+          else {
+            res.send(400, {result : false})
+          }
+        })
       }
     })
 });
   
   
 //배송지 삭제
-router.delete('/', function(req, res, next) {
-    res.send('respond with a resource');
+router.delete('/:addressID', function(req, res, next) {
+  var addressID = req.params.addressID;
+  pool.getConnection((err,conn) => {
+    if(err) { console.log(err); }
+    else {
+      var sql = "DELETE FROM tbAddress WHERE addressID = ?"
+      conn.query(sql, [addressID], (err, result) => {
+        conn.release();
+        if(err) { console.log(err); }
+        else if(result){
+          res.send(200, {result : true});
+        }
+        else {
+          res.send(400, {result : false})
+        }
+      })
+    }
+  })
 });
   
 //배송지 조회
-router.get('/', function(req, res, next) {
-    res.body("hello world");
+router.get('/:customerID', function(req, res, next) {
+    var customerID = req.params.customerID;
+    pool.getConnection((err,conn) => {
+      if(err) { console.log(err); }
+      else {
+        var sql = "SELECT * FROM tbAddress WHERE tbCustomer_customerID = ?"
+        conn.query(sql, [customerID], (err, result) => {
+          conn.release();
+          if(err) { console.log(err); }
+          else {
+            res.send(result);
+          }
+        })
+      }
+    })
 });
 
 module.exports = router;
