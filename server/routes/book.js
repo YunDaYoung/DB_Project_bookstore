@@ -14,15 +14,25 @@ router.get('/:bookID', function(req, res, next) {
         conn.release();
         if(err) { console.log(err); }
         else {
-          var data = {
-            bookID : result[0].bookID,	
-            bookName : result[0].bookName,	
-            bookPrice : result[0].bookPrice,	
-            bookStock : result[0].bookStock,	
-            bookAuthor : result[0].bookAuthor,	
-            bookImage : result[0].bookImage
-          }
-          res.send(200, data);
+          res.send(200, result);
+        }
+      })
+    }
+  })
+});
+
+//모든 도서정보 조회
+router.get('/', function(req, res, next) {
+  pool.getConnection((err, conn) => {
+    if(err) { console.log(err); }
+    else {
+      var data = [];
+      var sql = "SELECT * FROM tbbook"
+      conn.query(sql, (err, result) => {
+        conn.release();
+        if(err) { console.log(err); }
+        else {
+          res.send(200, result);
         }
       })
     }
@@ -81,5 +91,25 @@ router.delete('/:bookID', function(req, res, next) {
     }
   })
 });
+
+// 도서검색
+router.get('/search/:bookName', function(req, res, next) {
+  var bookName = req.params.bookName;
+  var data = [];
+  pool.getConnection((err, conn) => {
+    if(err) { console.log(err); }
+    else {
+      var sql = "SELECT * FROM tbbook WHERE bookName = ?"
+      conn.query(sql, [bookName], (err, result) => {
+        conn.release();
+        if(err) { console.log(err); }
+        else {
+          res.send(200, result);
+        }
+      })
+    }
+  })
+});
+
 
 module.exports = router;

@@ -84,7 +84,7 @@ router.get('/detail/:basketID', function(req, res, next) {
   var basketID = req.params.basketID;
   pool.getConnection((err, conn) => {
       if (err) res.status(500).send({ result: false })
-      var sql = "SELECT * FROM tbbasketdetail WHERE tbBasket_basketID = ?";
+      var sql = "SELECT * FROM tbbasketdetail, tbbook, tbbasket WHERE tbbasket.basketID = tbbasketdetail.tbBasket_basketID AND tbbasketdetail.tbBook_bookID = tbbook.bookID AND tbBasket_basketID = ?";
       conn.query(sql, [basketID], (err, result) => {
         conn.release();
         if (err) {console.log(err);}

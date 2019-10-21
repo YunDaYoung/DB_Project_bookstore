@@ -9,7 +9,7 @@ router.get('/:customerID', function(req, res, next) {
   pool.getConnection((err, conn) => {
     if(err) { console.log(err); }
     else {
-      var sql = "SELECT * FROM tbcard WHERE customerID = ?"
+      var sql = "SELECT * FROM tbcard WHERE tbCustomer_customerID = ?"
       conn.query(sql, [customerID], (err, result) => {
         conn.release();
         if(err) { console.log(err); }
@@ -18,12 +18,7 @@ router.get('/:customerID', function(req, res, next) {
             res.send(500, {result:false});
           }
           else{
-            var data = {
-              cardNumber: result[0].cardNumber,
-              cardExpiry: result[0].cardExpiry, 
-              cardType: result[0].cardType
-            }
-            res.send(200, data);
+            res.send(200, result);
           }
         }
       })
@@ -37,7 +32,7 @@ router.post('/:customerID', function(req, res, next) {
   pool.getConnection((err, conn) => {
     if(err) { console.log(err); }
     else {
-      var sql = "INSERT INTO tbcard (cardNumber, customerID, cardExpiry, cardType) VALUES (?, ?, ?, ?)"
+      var sql = "INSERT INTO tbcard (cardNumber, tbCustomer_customerID, cardExpiry, cardType) VALUES (?, ?, ?, ?)"
       conn.query(sql, [req.body.cardNumber, customerID, req.body.cardExpiry, req.body.cardType], (err, result) => {
         conn.release();
         if(err) { console.log(err); }
