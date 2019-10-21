@@ -34,18 +34,19 @@ router.post('/signUp', function(req, res) {
 //로그인
 router.post('/signIn', function(req, res, next) {
   pool.getConnection((err, conn) => {
-    if(err) { console.log(err); }
+    if(err) { console.log(err); res.send(500, {result:false}) }
     else {
       var sql = "SELECT * FROM tbcustomer WHERE customerID = ? AND password = ?"
       conn.query(sql, [req.body.customerID, req.body.password], (err, result) => {
         conn.release();
-        if(err) { console.log(err); }
+        if(err) { console.log(err); res.send(500, {result:false}) }
         else {
           if(result.length === 0){
             res.send(500, {result:false})
           }
           else {
             var data = {
+              result : true,
               memberID: result[0].customerID,
               memberName: result[0].customerName
             }

@@ -1,44 +1,44 @@
 import React, { Component } from 'react';
 
-class basketDetail extends Component {
+class bookDetail extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            basketDetailList : [],
-            basketID : window.sessionStorage.getItem("basketID")
+            bookList : [],
+            bookID : window.sessionStorage.getItem("bookID")
         }
     }
-
+    
     componentWillMount = () => {
-        fetch("http://localhost:4000/basket/detail/" + this.state.basketID)
+        fetch("http://localhost:4000/book/" + this.state.bookID)
             .then(response => {
                 return response.json();
             })
             .then(data => {
                 console.log(data);
-                this.setState({ basketDetailList : data })
+                this.setState({ bookList: data })
             })
     }
 
     render() {
-        console.log(this.state.basketDetailList);
-        const list = this.state.basketDetailList.map(item => (
+        const list = this.state.bookList.map(item => (
             <tr>
-                <td><img src = {item.bookImage}></img></td>
+                <tb><img src = {item.bookImage}></img></tb>
                 <td>{item.bookName}</td>
                 <td>{item.bookPrice}</td>
                 <td>{item.bookStock}</td>
                 <td>{item.bookAuthor}</td>
-                <td>{item.basketBookQTY}</td>
             </tr>
         ))
         return (
             <div>
                 <div>{list}</div>
+                <button type = "button">주문</button>
+                <button type = "button">장바구니</button>
             </div>
         );
     }
 }
 
-export default basketDetail;
+export default bookDetail;

@@ -1,28 +1,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-// const styles = {
-//     contentItem: {
-//         width:150,
-//         height:200,
-//       },
-//       contentImage: {
-//         width:'99%',
-//         height:'99%'
-//       }
-// }
-
-class Book extends Component {
+class Search extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             bookList : [],
+            bookName : window.sessionStorage.getItem("bookName")
         }
     }
     
     componentWillMount = () => {
-        fetch("http://localhost:4000/book")
+        fetch("http://localhost:4000/book/search/" + this.state.bookName)
             .then(response => {
                 return response.json();
             })
@@ -44,15 +34,15 @@ class Book extends Component {
                 <td>{item.bookPrice}</td>
                 <td>{item.bookStock}</td>
                 <td>{item.bookAuthor}</td>
-                <tb><Link to = "/bookDetail" style={{ color:'black', textDecoration: 'none' }}>상세보기</Link></tb>
+                <td><Link to = "/bookDetail" style={{ color:'black', textDecoration: 'none' }}>상세보기</Link></td>
             </tr>
         ))
         return (
             <div>
-                {list}
+                <div>{list}</div>
             </div>
         );
     }
 }
 
-export default Book;
+export default Search;

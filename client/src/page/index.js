@@ -1,0 +1,6 @@
+export { default as Address } from './Address'
+export { default as Card } from './CreditCard'
+export { default as OrderDetail } from './orderDetail'
+export { default as BasketDetail } from './basketDetail'
+export { default as Search} from './Search'
+export { default as BookDetail} from './bookDetail'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { default as OrderDetail} from '../page/orderDetail'
+import { OrderDetail} from '../page'
 
 class Order extends Component {
     constructor(props) {
@@ -8,7 +8,8 @@ class Order extends Component {
 
         this.state = {
             orderList : [],
-            customerID : window.sessionStorage.getItem('customerID')
+            customerID : window.sessionStorage.getItem('customerID'),
+            orderID : ""
         }
     }
 
@@ -23,10 +24,14 @@ class Order extends Component {
             })
     }
 
+    pushData = (data) => {
+        window.sessionStorage.setItem("orderID", data);
+    }
+
     render() {
         console.log(this.state.orderList);
-        const list = this.state.orderList.map(item => (	
-            <tr key={item.orderID}>
+        const list = this.state.orderList.map(item => (
+            <tr key={item.orderID} onClick={() => this.pushData(item.orderID)}>
                 <td>{item.orderID}</td>
                 <td>{item.addressNumber}</td>
                 <td>{item.address}</td>

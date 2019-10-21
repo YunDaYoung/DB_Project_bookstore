@@ -5,12 +5,14 @@ class orderDetail extends Component {
         super(props);
 
         this.state = {
-            orderDetailList : []
+            orderDetailList : [],
+            orderID : window.sessionStorage.getItem("orderID")
         }
     }
 
     componentWillMount = () => {
-        fetch("http://localhost:4000/order/detail/" + this.props.orderID)
+        console.log(window.sessionStorage.getItem("orderID"));
+        fetch("http://localhost:4000/order/detail/" + this.state.orderID)
             .then(response => {
                 return response.json();
             })
@@ -21,7 +23,6 @@ class orderDetail extends Component {
     }
 
     render() {
-        console.log(this.state.orderDetailList);
         const list = this.state.orderDetailList.map(item => (
             <tr>
                 <td><img src = {item.bookImage}></img></td>

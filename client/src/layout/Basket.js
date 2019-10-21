@@ -22,10 +22,13 @@ class Basket extends Component {
             })
     }
 
+    pushData = (data) => {
+        window.sessionStorage.setItem("basketID", data);
+    }
+
     render() {
-        console.log(this.state.basketList);
         const list = this.state.basketList.map(item => (
-            <tr>
+            <tr key={item.basketID} onClick={() => this.pushData(item.basketID)}>
                 <td>{item.basketID}</td>
                 <td>{item.createDate}</td>
                 <td><Link to = "/basketDetail" style={{ color:'black', textDecoration: 'none' }}>상세보기</Link></td>
