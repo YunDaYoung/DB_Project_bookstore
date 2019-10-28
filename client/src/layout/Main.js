@@ -17,24 +17,20 @@ class Main extends Component {
     }
 
     searchBook = () => {
-        console.log(this.props.logged);
-        if(this.props.logged){
-            window.sessionStorage.setItem("bookName", this.state.inputValue);
-        }
-        else{
-            this.state.changeLink = "/auth"
-            alert("Login please");
-        }
+        window.sessionStorage.setItem("bookName", this.state.inputValue);
     }
 
     render() {
         return (
             <div>
-                <input name="inputValue" placeholder="도서명 입력" type="text" value = {this.state.inputValue} onChange={this.handleChange}></input>
-                <button name="search" type = "button" onClick = {this.searchBook}>
-                { this.props.logged ?
-                <Link to = "/search" style={{ color:'black', textDecoration: 'none' }}>검색</Link> :
-                <Link to = "/auth" style={{ color:'black', textDecoration: 'none' }}>검색</Link>}</button>
+                {this.props.logged ?
+                <div>
+                    <input name="inputValue" placeholder="도서명 입력" type="text" value = {this.state.inputValue} onChange={this.handleChange}></input>
+                    <button name="search" type = "button" onClick = {this.searchBook}><Link to = "/search" style={{ color:'black', textDecoration: 'none' }}>검색</Link></button>
+                </div> : 
+                <div><h1>Welcome to visit Bookstore</h1><h3>please Login</h3></div>
+
+                }
             </div>
         );
     }

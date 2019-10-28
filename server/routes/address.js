@@ -84,4 +84,22 @@ router.get('/:customerID', function(req, res, next) {
     })
 });
 
+//배송지 주소아이디로 조회
+router.get('/update/:addressID', function(req, res, next) {
+  var addressID = req.params.addressID;
+  pool.getConnection((err,conn) => {
+    if(err) { console.log(err); }
+    else {
+      var sql = "SELECT * FROM tbAddress WHERE addressID = ?"
+      conn.query(sql, [addressID], (err, result) => {
+        conn.release();
+        if(err) { console.log(err); }
+        else {
+          res.send(result);
+        }
+      })
+    }
+  })
+});
+
 module.exports = router;

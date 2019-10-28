@@ -24,6 +24,18 @@ class Order extends Component {
             })
     }
 
+    deleteOrder = () => {
+        fetch("http://localhost:4000/order/" + this.state.customerID,{
+            method: 'DELETE'
+            }).then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                this.setState({ orderList: data })
+            })
+    }
+
     pushData = (data) => {
         window.sessionStorage.setItem("orderID", data);
     }
@@ -41,7 +53,8 @@ class Order extends Component {
                 <td>{item.cardExpiry}</td>
                 <td>{item.cardType}</td>
                 <td>{item.totalPrice}</td>
-                <td><Link to = "/orderDetail" style={{ color:'black', textDecoration: 'none' }}>상세보기</Link></td>
+                <td><button><Link to = "/orderDetail" style={{ color:'black', textDecoration: 'none' }}>상세보기</Link></button></td>
+                <td><button onClick = {this.deleteOrder} ><Link to = "/order" style={{ color: 'black', textDecoration: 'none'}}>주문취소</Link></button></td>
             </tr>
         ))
         return (

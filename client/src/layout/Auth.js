@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { isRegExp } from 'util';
 
 class Auth extends Component {
     constructor(props) {

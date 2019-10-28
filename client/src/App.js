@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Main, Auth, Basket, Book, Order, Mypage } from './layout'
-import { OrderDetail, BasketDetail, Search, Address, Card, BookDetail} from './page'
+import { OrderDetail, BasketDetail, Search, Address, Card, BookDetail, OrderRegister, AddressRegister, CreditCardRegister} from './page'
 import { default as Header} from './component/Header'
 
 class App extends Component{
@@ -10,10 +10,10 @@ class App extends Component{
     this.state = {
       logged: false,
       onLogin: this.onLogin,
-      onLogout: this.onLogout
-
+      onLogout: this.onLogout,
     }
   }
+
 
   onLogin = () => {
     this.setState({
@@ -69,6 +69,7 @@ class App extends Component{
             }
         })
   }
+  
 
   _reqLogout = () => {
     this.state.onLogout();
@@ -89,10 +90,13 @@ class App extends Component{
           <Route path='/mypage' exact render={props => (<Mypage/>)}></Route>
 
           <Route path='/address' exact render={props => (<Address/>)}></Route>
+          <Route path='/addressRegister' exact render={props => (<AddressRegister/>)}></Route>
           <Route path='/card' exact render={props => (<Card/>)}></Route>
+          <Route path='/cardRegister' exact render={props => (<CreditCardRegister/>)}></Route>
           <Route path='/bookDetail' exact render={props => (<BookDetail/>)}></Route>
           <Route path='/orderDetail' exact render={props => (<OrderDetail />)}></Route>
           <Route path='/basketDetail' exact render={props => (<BasketDetail />)}></Route>
+          <Route path='/orderRegister' exact render={props => (<OrderRegister />)}></Route>
           <Route path='/search' exact render={props => (<Search />)}></Route>
         </Router>
       </div>

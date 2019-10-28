@@ -41,9 +41,8 @@ class Book extends Component {
             <tr key={item.bookID} onClick={() => this.pushData(item.bookID)}>
                 <tb><img src = {item.bookImage}></img></tb>
                 <td>{item.bookName}</td>
-                <td>{item.bookPrice}</td>
-                <td>{item.bookStock}</td>
                 <td>{item.bookAuthor}</td>
+                <td>{item.bookPrice}</td>
                 <tb><Link to = "/bookDetail" style={{ color:'black', textDecoration: 'none' }}>상세보기</Link></tb>
             </tr>
         ))

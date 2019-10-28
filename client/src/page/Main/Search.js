@@ -10,8 +10,11 @@ class Search extends Component {
             bookName : window.sessionStorage.getItem("bookName")
         }
     }
+
+    
     
     componentWillMount = () => {
+        /*
         fetch("http://localhost:4000/book/search/" + this.state.bookName)
             .then(response => {
                 return response.json();
@@ -20,6 +23,19 @@ class Search extends Component {
                 console.log(data);
                 this.setState({ bookList: data })
             })
+            */
+           fetch("http://localhost:4000/book")
+           .then(response => {
+               return response.json();
+           })
+           .then(data => {
+                console.log(data);
+                data = data.filter(item => {
+                    return item.bookName.includes(this.state.bookName)
+                })
+                this.setState({ bookList: data })
+                console.log(this.state.bookList);    
+           })
     }
 
     pushData = (data) => {
@@ -31,9 +47,8 @@ class Search extends Component {
             <tr key={item.bookID} onClick={() => this.pushData(item.bookID)}>
                 <tb><img src = {item.bookImage}></img></tb>
                 <td>{item.bookName}</td>
-                <td>{item.bookPrice}</td>
-                <td>{item.bookStock}</td>
                 <td>{item.bookAuthor}</td>
+                <td>{item.bookPrice}</td>
                 <td><Link to = "/bookDetail" style={{ color:'black', textDecoration: 'none' }}>상세보기</Link></td>
             </tr>
         ))
